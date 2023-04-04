@@ -1,0 +1,23 @@
+1. We want a chat. Every chat is an app that you've searched
+2. Upon opening a chat you view the apps information from the google play store api on the right of the chat like in slack if you click an avatar
+you can prompt anything in the chat OR you can start by writing / and that open a dialog with pre-defined prompts. These read into the reviews
+
+3. When you do a prompt you see the response but also info about review count used and whatever properties make sense
+You can configure the prompt w.r.t number of reviews, datefilter, star filter, review word count filter, sentiment filter (0-33, 33-66, 66-100)
+Once you have hit send, you can go to a reviews page by clicking a button. The 'reviews' button next to the 'send' button that was previously disabled
+
+OR the all - read - unread on the top could be apps - reviews
+When you're in the reviews tab you see nothing but you can search for the app, and that will search for reviews for that app and you can filter them in the same way as you filter reviews for summaries
+
+1. Chat
+- We need a list of the apps the logged in user has
+	- backend can search for an app w.o creating a review
+	- backend will save the app for the user
+	- backend can query the apps a user has
+	- backend can create a new message from the user
+	- backend can create a new message from the machine
+	- backend can query messages the user has sent - received
+	- backend can update the app information
+	- backend can call openai with a promt whenever the user sends a message
+
+
