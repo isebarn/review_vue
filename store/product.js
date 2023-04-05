@@ -74,7 +74,7 @@ export const actions = {
   // getProduct calls GET /product gets all saved products
   getSavedProducts({ state, commit, dispatch }) {
     this.$axios.$get('/product').then((response) => {
-      commit('updateField', { path: 'savedProducts', value: response.data });
+      commit('updateField', { path: 'products', value: response });
     });
   },
 

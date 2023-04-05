@@ -62,17 +62,7 @@ export default {
           user: { url: 'authentication/user', method: 'get' },
         }
       },
-    },
-    redirect: {
-      login: '/login',
-      logout: '/',
-      callback: '/login',
-      home: '/'
     }
-  },
-
-  router: {
-    middleware: ['auth']
   },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
