@@ -36,8 +36,14 @@ export const actions = {
 
   // getCurrentProductReviews calls serpapi/reviews/<product_id> and updates currentProductReviews
   getCurrentProductReviews({ state, commit, dispatch }) {
-    return this.$axios.get(`/serpapi/reviews/${state.currentProduct.id}`).then((response) => {
-      commit('updateField', { path: 'currentProductReviews', value: response.data });
+    this.$axios.get(`/serpapi/reviews/${state.currentProduct.id}`).then((response) => {
+      // then posts them to store them
+      this.$axios.post(`/reviews/${state.currentProduct.id}`, response.data).then(() => {
+        // then retrieve all reviews
+        this.$axios.get(`/reviews/${state.currentProduct.id}`).then((response) => {
+          commit('updateField', { path: 'currentProductReviews', value: response.data });
+        });
+      });
     });
   },
 
