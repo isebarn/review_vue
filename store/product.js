@@ -21,10 +21,24 @@ export const mutations = {
   addMessage (state, message) {
     // add to the front of the array
     state.currentProductMessages.unshift(message)
-  }
+  },
+
+  // updateCurrentProductReviews updates the currentProductReviews by index
+  updateCurrentProductReviews(state, reviews) {
+    // for loop over the reviews
+    for (let i = 0; i < reviews.length; i++) {
+      // find the review in the currentProductReviews
+      const review = state.currentProductReviews.find((r) => r.id === reviews[i].id);
+      // if the review is found, update the review with the answer
+      if (review) {
+        review.answer = reviews[i].answer;
+      }
+    }
+  },
 };
 
 export const actions = {
+
   // searchProducts calls serpapi/products?search=productSearch and updates productSearchResults
   searchProducts({ state, commit, dispatch }) {
     return this.$axios
@@ -41,6 +55,10 @@ export const actions = {
       this.$axios.post(`/reviews/${state.currentProduct.id}`, response.data).then(() => {
         // then retrieve all reviews
         this.$axios.get(`/reviews/${state.currentProduct.id}`).then((response) => {
+          // add the field selected to every review in response.data
+          response.data.forEach((review) => {
+            review.selected = false;
+          });
           commit('updateField', { path: 'currentProductReviews', value: response.data });
         });
       });
@@ -105,5 +123,14 @@ export const actions = {
   callQuickPrompt({ state, commit, dispatch }, quickPrompt) {
     dispatch('addCurrentProductMessage', {message: quickPrompt.name, from_user: true})
     dispatch('getOpenAIResponse', quickPrompt.prompt)
+  },
+
+  // answerReviews calls openai/answer_review
+  answerReviews({ state, commit }) {
+    // find all currentProductReviews that have selected = true
+    const reviews = state.currentProductReviews.filter((review) => review.selected);
+    this.$axios.$post('/openai/answer_reviews', reviews).then((response) => {
+      commit('updateCurrentProductReviews', response);
+    });
   }
 }
