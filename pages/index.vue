@@ -23,27 +23,37 @@
           </ul>
         </div>
       </div>
-      <chat-component v-if="currentProduct && false"/>
-      <div v-if="currentProduct && false" id="chat-sidebar" class="card p-3 p-xl-1 mt-xl-n1 chat-sidebar me-3 phoenix-offcanvas phoenix-offcanvas-start">
-        <div class="scrollbar">
-          <div id="contactListTabContent" class="tab-content">
-            <div data-chat-thread-tab-content="data-chat-thread-tab-content">
-              <div class="list-group">
-                <a  v-for="quickPrompt in quickPrompts" :key="quickPrompt.id" class="list-group-item list-group-item-action flex-column align-items-start p-3 p-sm-4 light"  @click="callQuickPrompt(quickPrompt)">
-                  <div class="d-flex flex-column flex-sm-row justify-content-between mb-1 mb-md-0">
-                    <h5 class="mb-1 text-black">{{ quickPrompt.name }}</h5>
+      <div v-if="currentProduct">
+        <ul class="nav nav-underline" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation"><a class="nav-link" v-bind:class="{'active': tab == 0 }" aria-selected="true" @click="tab = 0">AI Advisor</a></li>
+          <li class="nav-item" role="presentation"><a class="nav-link" v-bind:class="{'active': tab == 1 }" aria-selected="false" tabindex="-1" @click="tab = 1">Reviews</a></li>
+        </ul>
+        <div v-if="tab == 0" class="chat d-flex phoenix-offcanvas-container pb-3 pt-0 mt-n1 mb-9 bg-100">
+          <chat-component />
+          <div id="chat-sidebar" class="card p-3 p-xl-1 mt-xl-n1 chat-sidebar me-3 phoenix-offcanvas phoenix-offcanvas-start">
+            <div class="scrollbar">
+              <div id="contactListTabContent" class="tab-content">
+                <div data-chat-thread-tab-content="data-chat-thread-tab-content">
+                  <div class="list-group">
+                    <a  v-for="quickPrompt in quickPrompts" :key="quickPrompt.id" class="list-group-item list-group-item-action flex-column align-items-start p-3 p-sm-4 light"  @click="callQuickPrompt(quickPrompt)">
+                      <div class="d-flex flex-column flex-sm-row justify-content-between mb-1 mb-md-0">
+                        <h5 class="mb-1 text-black">{{ quickPrompt.name }}</h5>
+                      </div>
+                      <p class="mb-1">{{  quickPrompt.description }}</p>
+                    </a>
                   </div>
-                  <p class="mb-1">{{  quickPrompt.description }}</p>
-                </a>
-            </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <ReviewComponent v-if="currentProductReviews"/>
-      <div id="chat-sidebar" class="card p-3 p-xl-1 mt-xl-n1 chat-sidebar me-3 phoenix-offcanvas phoenix-offcanvas-start bg-100">
-        <div class="col-auto"><a class="btn btn-primary chat-sidebar-width d-none d-lg-block my-2" @click="answerReviews">Answer Reviews</a>
-          <button class="btn btn-phoenix-secondary text-700 d-lg-none" data-phoenix-toggle="offcanvas" data-phoenix-target="#emailSidebarColumn"><span class="fa-solid fa-bars"></span></button>
+        <div v-if="tab == 1" class="chat d-flex phoenix-offcanvas-container pt-0 mt-n1 mb-9 bg-100">
+          <ReviewComponent/>
+          <div id="chat-sidebar" class="card p-3 p-xl-1 mt-xl-n1 chat-sidebar me-3 phoenix-offcanvas phoenix-offcanvas-start bg-100">
+            <div class="col-auto"><a class="btn btn-primary chat-sidebar-width d-none d-lg-block my-2" @click="answerReviews">Answer Reviews</a>
+              <button class="btn btn-phoenix-secondary text-700 d-lg-none" data-phoenix-toggle="offcanvas" data-phoenix-target="#emailSidebarColumn"><span class="fa-solid fa-bars"></span></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -69,7 +79,8 @@ export default {
     return {
       timeout: 0,
       message: '',
-      viewingSearch: true
+      viewingSearch: true,
+      tab: 0,
     }
   },
 
