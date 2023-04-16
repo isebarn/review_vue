@@ -47,9 +47,35 @@
             </div>
           </div>
         </div>
-        <div v-if="tab == 1" class="chat d-flex phoenix-offcanvas-container pt-0 mt-n1 mb-9 bg-100">
+        <div v-if="tab == 1" class="d-flex pt-0 mt-n1 mb-9 bg-100">
           <ReviewComponent/>
           <div id="chat-sidebar" class="card p-3 p-xl-1 mt-xl-n1 chat-sidebar me-3 phoenix-offcanvas phoenix-offcanvas-start bg-100">
+            <div class="col-auto">
+              <b-form-checkbox v-model="angryClicked">
+                <svg-icon type='mdi' :path="angryClicked ? angrySelect : angry"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="frownClicked">
+                <svg-icon type='mdi' :path="frownClicked ? frownSelect : frown"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="sadClicked">
+                <svg-icon type='mdi' :path="sadClicked ? sadSelect : sad"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="confusedClicked">
+                <svg-icon type='mdi' :path="confusedClicked ? confusedSelect : confused"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="neutralClicked">
+                <svg-icon type='mdi' :path="neutralClicked ? neutralSelect : neutral"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="happyClicked">
+                <svg-icon type='mdi' :path="happyClicked ? happySelect : happy"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="smileClicked">
+                <svg-icon type='mdi' :path="smileClicked ? smileSelect : smile"></svg-icon>
+              </b-form-checkbox>
+              <b-form-checkbox v-model="excitedClicked">
+                <svg-icon type='mdi' :path="excitedClicked ? excitedSelect : excited"></svg-icon>
+              </b-form-checkbox>
+            </div>
             <div class="col-auto"><a class="btn btn-primary chat-sidebar-width d-none d-lg-block my-2" @click="answerReviews">Answer Reviews</a>
               <button class="btn btn-phoenix-secondary text-700 d-lg-none" data-phoenix-toggle="offcanvas" data-phoenix-target="#emailSidebarColumn"><span class="fa-solid fa-bars"></span></button>
             </div>
@@ -63,14 +89,33 @@
 <script>
 import { mapFields } from "vuex-map-fields"
 import { mapActions } from "vuex"
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiEmoticonAngryOutline } from '@mdi/js';
+import { mdiEmoticonFrownOutline } from '@mdi/js';
+import { mdiEmoticonSadOutline } from '@mdi/js';
+import { mdiEmoticonConfusedOutline } from '@mdi/js';
+import { mdiEmoticonNeutralOutline } from '@mdi/js';
+import { mdiEmoticonHappyOutline } from '@mdi/js';
+import { mdiEmoticonOutline } from '@mdi/js';
+import { mdiEmoticonExcitedOutline } from '@mdi/js';
+import { mdiEmoticonAngry } from '@mdi/js';
+import { mdiEmoticonFrown } from '@mdi/js';
+import { mdiEmoticonSad } from '@mdi/js';
+import { mdiEmoticonConfused } from '@mdi/js';
+import { mdiEmoticonNeutral } from '@mdi/js';
+import { mdiEmoticonHappy } from '@mdi/js';
+import { mdiEmoticon } from '@mdi/js';
+import { mdiEmoticonExcited } from '@mdi/js';
 import ChatComponent from '~/components/chat/ChatComponent.vue'
 import ReviewComponent from '~/components/reviews/ReviewComponents.vue'
+
 export default {
   name: 'IndexPage',
 
   components: {
     ChatComponent,
-    ReviewComponent
+    ReviewComponent,
+    SvgIcon
   },
 
   middleware: ['authentication'],
@@ -81,11 +126,28 @@ export default {
       message: '',
       viewingSearch: true,
       tab: 0,
+      angry: mdiEmoticonAngryOutline,
+      angrySelect: mdiEmoticonAngry,
+      frown: mdiEmoticonFrownOutline,
+      frownSelect: mdiEmoticonFrown,
+      sad: mdiEmoticonSadOutline,
+      sadSelect: mdiEmoticonSad,
+      confused: mdiEmoticonConfusedOutline,
+      confusedSelect: mdiEmoticonConfused,
+      neutral: mdiEmoticonNeutralOutline,
+      neutralSelect: mdiEmoticonNeutral,
+      happy: mdiEmoticonHappyOutline,
+      happySelect: mdiEmoticonHappy,
+      smile: mdiEmoticonOutline,
+      smileSelect: mdiEmoticon,
+      excited: mdiEmoticonExcitedOutline,
+      excitedSelect: mdiEmoticonExcited,
     }
   },
 
   computed: {
     ...mapFields('product', ['productSearch', 'productSearchResults', 'currentProduct', 'currentProductMessages', 'quickPrompts', 'products', 'currentProductReviews']),
+    ...mapFields('product', ["angryClicked", "frownClicked", "sadClicked", "confusedClicked", "neutralClicked", "happyClicked", "smileClicked", "excitedClicked"]),
 
     productList () {
       // if productSearch is empty, return all from product,
@@ -115,7 +177,7 @@ export default {
 
     setListView(viewingSearch) {
       this.viewingSearch = viewingSearch
-    }
+    },
   }
 
 

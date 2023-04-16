@@ -8,7 +8,15 @@ export const state = () => ({
   currentProductMessages: [],
   products: [],
   savedProducts: [],
-  quickPrompts: []
+  quickPrompts: [],
+  angryClicked: false,
+  frownClicked: false,
+  sadClicked: false,
+  confusedClicked: false,
+  neutralClicked: false,
+  happyClicked: false,
+  smileClicked: false,
+  excitedClicked: false,
 });
 
 export const getters = {
